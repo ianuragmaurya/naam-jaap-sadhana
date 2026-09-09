@@ -8,7 +8,7 @@ A free, offline-first digital japa mala (mantra chanting counter) app for Androi
     <img src="screenshots/onboarding.png" width="200" />
     <img src="screenshots/counter.png" width="200" />
     <img src="screenshots/history.png" width="200" />
-    <img src="screenshots/settings.png" width="200" />
+    <img src="screenshots/setting.png" width="200" />
   </p>
 
 ## Features
