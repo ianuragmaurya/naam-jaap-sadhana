@@ -79,7 +79,9 @@ class CounterViewModel @Inject constructor(
     private fun observeVolumeButtonPreference() {
         viewModelScope.launch {
             userPreferencesRepository.userPreferencesFlow.collect { prefs ->
-                _uiState.update { it.copy(volumeButtonCountingEnabled = prefs.volumeButtonCountingEnabled) }
+                _uiState.update { it.copy(volumeButtonCountingEnabled = prefs.volumeButtonCountingEnabled,
+                    hapticIntensity = prefs.hapticIntensity)
+                }
             }
         }
     }

@@ -66,8 +66,11 @@ import kotlin.math.sin
 import kotlin.time.Duration.Companion.milliseconds
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.filled.ShowChart
 import androidx.compose.material.icons.automirrored.filled.TrendingUp
@@ -120,7 +123,7 @@ fun CounterScreen(
                 CounterContent(
                     uiState = uiState,
                     onTap = {
-                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        haptic.performTapFeedback(uiState.hapticIntensity)
                         viewModel.onTap()
                     },
                     onMantraNameClick = { showMantraSheet = true },
@@ -179,7 +182,9 @@ private fun CounterContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 8.dp)
+                .windowInsetsPadding(WindowInsets.statusBars),
             horizontalArrangement = Arrangement.End,
         ) {
             GlowIconButton(onClick = onEnterFocusMode, icon = Icons.Default.Fullscreen, contentDescription = "Focus mode")
