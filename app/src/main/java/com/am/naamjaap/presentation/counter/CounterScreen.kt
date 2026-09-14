@@ -77,6 +77,7 @@ import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.Fullscreen
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.IconButton
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.core.graphics.toColorInt
 
@@ -90,11 +91,12 @@ fun CounterScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val haptic = LocalHapticFeedback.current
+    val context = LocalContext.current
     var showMantraSheet by remember { mutableStateOf(false) }
 
     LaunchedEffect(uiState.showMalaCompleteAnimation) {
         if (uiState.showMalaCompleteAnimation) {
-            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            performTapFeedback(context, uiState.hapticIntensity)
             delay(1600.milliseconds)
             viewModel.onMalaCompleteAnimationShown()
         }
@@ -123,7 +125,7 @@ fun CounterScreen(
                 CounterContent(
                     uiState = uiState,
                     onTap = {
-                        haptic.performTapFeedback(uiState.hapticIntensity)
+                        performTapFeedback(context, uiState.hapticIntensity)
                         viewModel.onTap()
                     },
                     onMantraNameClick = { showMantraSheet = true },

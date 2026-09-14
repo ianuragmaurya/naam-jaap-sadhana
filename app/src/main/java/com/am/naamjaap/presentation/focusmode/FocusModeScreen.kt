@@ -42,8 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -55,6 +54,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.am.naamjaap.presentation.counter.CounterViewModel
+import com.am.naamjaap.presentation.counter.performTapFeedback
 import com.am.naamjaap.presentation.theme.SaffronGlow
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
@@ -71,7 +71,7 @@ fun FocusModeScreen(
     viewModel: CounterViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val haptic = LocalHapticFeedback.current
+    val context = LocalContext.current
     val view = LocalView.current
 
     DisposableEffect(Unit) {
@@ -85,7 +85,7 @@ fun FocusModeScreen(
     DisposableEffect(uiState.volumeButtonCountingEnabled) {
         if (uiState.volumeButtonCountingEnabled) {
             VolumeKeyHandler.register {
-                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                performTapFeedback(context, uiState.hapticIntensity)
                 viewModel.onTap()
             }
         }
@@ -94,7 +94,7 @@ fun FocusModeScreen(
 
     LaunchedEffect(uiState.showMalaCompleteAnimation) {
         if (uiState.showMalaCompleteAnimation) {
-            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            performTapFeedback(context, uiState.hapticIntensity)
             delay(1400.milliseconds)
             viewModel.onMalaCompleteAnimationShown()
         }
@@ -131,7 +131,7 @@ fun FocusModeScreen(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
                 onClick = {
-                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                    performTapFeedback(context, uiState.hapticIntensity)
                     pulseTrigger = if (pulseTrigger == 0f) 1f else 0f
                     viewModel.onTap()
                 }

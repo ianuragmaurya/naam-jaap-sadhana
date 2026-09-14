@@ -13,6 +13,4 @@ data class CounterUiState(
     val showMalaCompleteAnimation: Boolean = false,
     val isLoading: Boolean = true,
     val volumeButtonCountingEnabled: Boolean = true
-
-
 )

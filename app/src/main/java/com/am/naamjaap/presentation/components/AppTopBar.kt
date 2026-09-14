@@ -1,6 +1,5 @@
 package com.am.naamjaap.presentation.components
 
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -12,7 +11,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,7 +30,10 @@ fun AppTopBar(title: String, onBack: () -> Unit) {
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background
-        ),
-        windowInsets = WindowInsets(top = 0.dp)
+        )
+        // windowInsets parameter poori tarah hataya — TopAppBar ab apna
+        // default (TopAppBarDefaults.windowInsets) use karega, jo status-bar
+        // aur camera-cutout dono ko Android 10 se 16 tak automatically
+        // correctly handle karta hai.
     )
 }
