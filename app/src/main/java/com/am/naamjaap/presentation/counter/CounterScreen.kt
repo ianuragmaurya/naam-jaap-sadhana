@@ -80,6 +80,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.core.graphics.toColorInt
+import com.am.naamjaap.presentation.components.GlassSurface
+import com.am.naamjaap.presentation.components.GoldDustBackground
 
 @Composable
 fun CounterScreen(
@@ -101,7 +103,6 @@ fun CounterScreen(
             viewModel.onMalaCompleteAnimationShown()
         }
     }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -114,6 +115,10 @@ fun CounterScreen(
                 )
             )
     ) {
+        // Ambient gold-dust drifting behind everything — sits above the
+        // gradient but below all interactive content (z-order = declaration order).
+        GoldDustBackground(modifier = Modifier.fillMaxSize())
+
         when {
             uiState.isLoading || uiState.currentProfile == null -> {
                 CircularProgressIndicator(
@@ -323,23 +328,22 @@ private fun BeadRingCounter(
 
 @Composable
 private fun StatChip(label: String, value: String) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .clip(MaterialTheme.shapes.medium)
-            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f))
-            .padding(horizontal = 20.dp, vertical = 12.dp)
-    ) {
-        Text(
-            text = value,
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.primary
-        )
-        Text(
-            text = label,
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+    GlassSurface(shape = MaterialTheme.shapes.medium) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp)
+        ) {
+            Text(
+                text = value,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = label,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
     }
 }
 
@@ -468,19 +472,22 @@ private fun GlowIconButton(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     contentDescription: String
 ) {
-    Box(
+    GlassSurface(
+        shape = CircleShape,
         modifier = Modifier
             .size(44.dp)
-            .clip(CircleShape)
-            .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.55f))
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center
+            .clickable(onClick = onClick)
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = contentDescription,
-            tint = MaterialTheme.colorScheme.onSurface
-        )
+         Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = contentDescription,
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+        }
     }
 }
 
