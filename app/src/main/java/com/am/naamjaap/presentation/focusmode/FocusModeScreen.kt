@@ -53,6 +53,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.am.naamjaap.presentation.components.CosmicStarfield
 import com.am.naamjaap.presentation.counter.CounterViewModel
 import com.am.naamjaap.presentation.counter.performTapFeedback
 import com.am.naamjaap.presentation.theme.SaffronGlow
@@ -137,6 +138,8 @@ fun FocusModeScreen(
                 }
             )
     ) {
+        CosmicStarfield(modifier = Modifier.fillMaxSize())
+
         // Breathing radial glow, centered
         Box(
             modifier = Modifier
